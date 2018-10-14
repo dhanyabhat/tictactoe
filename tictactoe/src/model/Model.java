@@ -61,16 +61,16 @@ public class Model {
 	public void PlayMove(int x, int y) {
 		
 		if(getMovesCount() > 0){
-			// mark on the board with 'X' or 'O' depending on playerId
+			// mark board with 'X' or 'O'
 			if(playerId % 2 != 0) 
 				board[x][y] = 'X';
 			else 
 				board[x][y] = 'O';
 			
-			// decrease the count of moves left
+			// decrease the count of moves
 			setMovesCount(--movesCount);
 			
-			// check if playerId won or if game is tied
+			// check if playerId won game or if game is tied
 			if(isWinner(x, y)) {
 				setMsg("Player " + playerId + " is Winner!");
 				v.isWinner(x, y, board[x][y], getMsg());

@@ -1,14 +1,19 @@
 package adapter;
+
+/** The adapter class is an interface between the view and the controller.
+ * It listens for actions on the buttons and invokes 
+ * the controller class to take appropriate action.
+ * */
+
 import controller.*;
 import view.*;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 public class Adapter implements ActionListener {
 
 	private Controller c;
 	private View v;
-	
+
 	//initialize reference of view and controller
     public Adapter(Controller c, View v) {
         this.c = c;
@@ -16,16 +21,12 @@ public class Adapter implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        String event = "You clicked " + getName(e);
-    }
-     /**
-     * Determine the name of the component from which the event got triggered.
-     */
-    private String getName(ActionEvent e) {
-        if (e.getSource() instanceof JComponent) {
-            return ((JComponent)e.getSource()).getName();
-        } else {
-            throw new RuntimeException("Event from unexpected component");
-        }
+    	// request the controller to perform action depending on the button pressed
+		if(v.isReset(e))
+			c.setRequest();
+		else {
+			ArrayList<Integer> position = v.getMyPosition(e);
+			c.setRequest(position);
+		}
     }
 }

@@ -1,4 +1,9 @@
 package view;
+
+/** The View class is responsible for displaying the GUI and 
+ * the state of the game when updated by model.
+ */
+
 import controller.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -14,18 +19,18 @@ import adapter.*;
     private JButton reset;
     private JTextArea playerturn;
     
+    // default constructor
     public View() {
 		this.gui = new JFrame("Tic Tac Toe");
 		this.blocks = new JButton[3][3];
 		this.reset = new JButton("Reset");
 		this.playerturn = new JTextArea();
-
+		//set the layout and initialize buttons 
 		initialize();
     }
     
-    // function to add action listeners to buttons
+    // add action listeners to buttons
     public void setActionListener(Controller c) {
-    		// adapter needs reference of controller and view class
 		this.a = new Adapter(c, this);
 		for(int row = 0; row<3 ;row++) {
 	        for(int column = 0; column<3 ;column++) {
@@ -35,6 +40,7 @@ import adapter.*;
 	    reset.addActionListener(a);
     }
     
+    // initialize layout and buttons
     public void initialize () {
 	    
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,16 +71,18 @@ import adapter.*;
 	    gui.setVisible(true);
     }
 
+    //check if the action event was generated because of reset key
     public boolean isReset(ActionEvent e) {
 		if(e.getSource() == reset)
 			return true;
 		return false;
     }
     
+    //find the x,y-coordinates of the pressed button
     public ArrayList<Integer> getMyPosition(ActionEvent e) {
     	ArrayList<Integer> position = new ArrayList<Integer>();
-    	for(int row = 0; row < 3 ;row++) {
-	        for(int column = 0; column < 3 ;column++) {
+    	for(int row = 0; row < 3; row++) {
+	        for(int column = 0; column < 3; column++) {
 	        		if(e.getSource() == blocks[row][column]) {
 	        			position.add(row);
 	        			position.add(column);
@@ -84,12 +92,14 @@ import adapter.*;
     	return position;
     }
   
+    //update view with the correct symbol and message
     public void update(int row, int column, char symbol, String message) {
 		blocks[row][column].setText(Character.toString(symbol));
 		blocks[row][column].setEnabled(false);
 		playerturn.setText(message);
     }
 
+    //freeze view if there is a winner in the game or game is tied
     public void isWinner(int row, int col, char symbol, String message) {
 		blocks[row][col].setText(Character.toString(symbol));
 		blocks[row][col].setEnabled(false);
@@ -101,6 +111,7 @@ import adapter.*;
 		playerturn.setText(message);
     }
 
+    //clear the view and reset it for a new game
     public void resetGame() {
     	for(int row = 0; row < 3; row++) {
             for(int column = 0; column < 3; column++) {
