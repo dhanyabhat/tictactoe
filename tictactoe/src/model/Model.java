@@ -1,9 +1,10 @@
 package model;
-import view.*;
 
 /** The model class has the current state of the game
  * as well as the logic to decide who the winner is. 
  * */
+
+import view.*;
 
 public class Model {
 	private View v;
@@ -72,9 +73,11 @@ public class Model {
 			// check if playerId won or if game is tied
 			if(isWinner(x, y)) {
 				setMsg("Player " + playerId + " is Winner!");
+				v.isWinner(x, y, board[x][y], getMsg());
 			}
 			else if(getMovesCount()==0) {
 				setMsg("No Winner! Game ended in a tie");
+				v.isWinner(x, y, board[x][y], getMsg());
 			}
 			else {
 				if(playerId%2 != 0) {
@@ -85,8 +88,9 @@ public class Model {
 				else {
 					setPlayerId(1);
 					setMsg("'X':  Player " +getPlayerId());
-
 				}
+				// update the board with a message for the next player's turn
+				v.update(x, y, board[x][y], getMsg());
 			}
 			
 		}

@@ -12,7 +12,8 @@ public class TicTacToe {
                                                                                  
         // Use aggregation to put the components together                        
         m.registerView(v);                                                       
-        c.setModel(m);                                                           
-                              
+        c.setModel(m);
+        v.setActionListener(c);
+                    
     }                                                                            
 }

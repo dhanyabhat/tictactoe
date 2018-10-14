@@ -3,7 +3,6 @@ import controller.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-
 import javax.swing.*;
 import adapter.*;
 
@@ -16,18 +15,28 @@ import adapter.*;
     private JTextArea playerturn;
     
     public View() {
-    		this.gui = new JFrame("Tic Tac Toe");
-    		this.blocks = new JButton[3][3];
-    		this.reset = new JButton("Reset");
-    		this.playerturn = new JTextArea();
-    		this.c = new Controller();
-    		this.a = new Adapter(c);
-    		
-    		initialize();
+		this.gui = new JFrame("Tic Tac Toe");
+		this.blocks = new JButton[3][3];
+		this.reset = new JButton("Reset");
+		this.playerturn = new JTextArea();
+
+		initialize();
+    }
+    
+    // function to add action listeners to buttons
+    public void setActionListener(Controller c) {
+    		// adapter needs reference of controller and view class
+		this.a = new Adapter(c, this);
+		for(int row = 0; row<3 ;row++) {
+	        for(int column = 0; column<3 ;column++) {
+	        	blocks[row][column].addActionListener(a);
+	        }
+		}
+	    reset.addActionListener(a);
     }
     
     public void initialize () {
-	    gui.setVisible(true);
+	    
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    gui.setSize(new Dimension(500, 350));
 	    gui.setResizable(true);
@@ -51,14 +60,9 @@ import adapter.*;
                 blocks[row][column].setPreferredSize(new Dimension(75,75));
                 blocks[row][column].setText("");
                 game.add(blocks[row][column]);
-                blocks[row][column].addActionListener(a);
             }
 	    }
-	    reset.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                resetGame();
-            }
-        });
+	    gui.setVisible(true);
     }
 
     public boolean isReset(ActionEvent e) {
@@ -69,8 +73,8 @@ import adapter.*;
     
     public ArrayList<Integer> getMyPosition(ActionEvent e) {
     	ArrayList<Integer> position = new ArrayList<Integer>();
-    	for(int row = 0; row<3 ;row++) {
-	        for(int column = 0; column<3 ;column++) {
+    	for(int row = 0; row < 3 ;row++) {
+	        for(int column = 0; column < 3 ;column++) {
 	        		if(e.getSource() == blocks[row][column]) {
 	        			position.add(row);
 	        			position.add(column);
@@ -78,6 +82,23 @@ import adapter.*;
 	        }
     	}
     	return position;
+    }
+  
+    public void update(int row, int column, char symbol, String message) {
+		blocks[row][column].setText(Character.toString(symbol));
+		blocks[row][column].setEnabled(false);
+		playerturn.setText(message);
+    }
+
+    public void isWinner(int row, int col, char symbol, String message) {
+		blocks[row][col].setText(Character.toString(symbol));
+		blocks[row][col].setEnabled(false);
+		for(int i = 0; i < 3; i++) {
+	        for(int j = 0; j < 3; j++) {
+	        	blocks[i][j].setEnabled(false);
+	        }
+		}
+		playerturn.setText(message);
     }
 
     public void resetGame() {
@@ -88,6 +109,11 @@ import adapter.*;
             }
         }
         playerturn.setText("Player 1 to play 'X'");
+    }
+    
+    // getter function to check value of a button on the grid
+    public String getButtonText(int i, int j) {
+    	return blocks[i][j].getText();
     }
  
 }

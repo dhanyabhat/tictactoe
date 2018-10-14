@@ -1,17 +1,20 @@
 package adapter;
 import controller.*;
+import view.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 public class Adapter implements ActionListener {
+
 	private Controller c;
-    public Adapter(Controller c) {
+	private View v;
+	
+	//initialize reference of view and controller
+    public Adapter(Controller c, View v) {
         this.c = c;
+        this.v = v;
     }
-     /**
-     * This class is an ActionListener, so it must implement this method. But,
-     * it only transforms data and delegates the call.
-     */
+
     public void actionPerformed(ActionEvent e) {
         String event = "You clicked " + getName(e);
     }
