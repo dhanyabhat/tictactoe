@@ -1,11 +1,12 @@
 package model;
+import view.*;
 
 /** The model class has the current state of the game
  * as well as the logic to decide who the winner is. 
  * */
 
 public class Model {
-
+	private View v;
 	private int playerId;
 	private int movesCount;
 	private char[][] board;
@@ -15,6 +16,11 @@ public class Model {
 		this.board = new char[3][3];
 		this.movesCount = 9;
 		this.playerId = 1;
+	}
+	
+	// initializing the reference of the view class
+	public void registerView(View v) {
+		this.v = v;
 	}
 
 	//setter and getter methods for the variables
@@ -127,6 +133,7 @@ public class Model {
 				board[i][j] = '\0';
 			}
 		}
+		v.resetGame();
 	}
 		
 }
