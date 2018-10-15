@@ -106,7 +106,7 @@ public void actionPerformed(ActionEvent e)
 
 ### Steps to build and test the code from command line:
 
-1. Install Markup :  [Apache Ant](https://ant.apache.org/bindownload.cgi) and https://ant.apache.org/bindownload.cgi
+1. Install [Apache Ant](https://ant.apache.org/bindownload.cgi)
 
 2. Navigate to the directory that contains the `build.xml` build file and run the command: `ant`.
    After this, the compiled java classes will be in the `bin` directory.
